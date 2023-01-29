@@ -7,3 +7,5 @@ const Msg = () => {
         </div>
     )
 }
+
+export default Msg
