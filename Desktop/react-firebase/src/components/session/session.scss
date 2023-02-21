@@ -1,0 +1,35 @@
+%pagecnt {
+    display: flex;
+    flex-direction: column;
+    height: 60vh;
+    width: 40%;
+    justify-content: space-between;
+    margin: 0 auto;
+}
+.pagecnt {
+
+   @extend %pagecnt;
+    
+    & img {
+        margin: 0 auto;
+    }
+
+    &__register {
+        @extend %pagecnt;
+        height: 80vh;
+    }
+}
+
+
+@media screen and (max-width: 500px){
+    .pagecnt {
+        width: 100%;
+
+        &__register {
+            width: 100%;
+        }
+    }
+    img {
+        width: 30%;
+    }
+}
