@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/YennyMTB/deliveryfood.git/static/css/main.f97afe94.css",
+    "main.js": "/YennyMTB/deliveryfood.git/static/js/main.72b8e7c2.js",
+    "index.html": "/YennyMTB/deliveryfood.git/index.html",
+    "main.f97afe94.css.map": "/YennyMTB/deliveryfood.git/static/css/main.f97afe94.css.map",
+    "main.72b8e7c2.js.map": "/YennyMTB/deliveryfood.git/static/js/main.72b8e7c2.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f97afe94.css",
+    "static/js/main.72b8e7c2.js"
+  ]
+}
