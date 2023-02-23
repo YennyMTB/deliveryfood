@@ -1,0 +1,68 @@
+.logo {
+  display: block;
+  margin: auto;
+  height: 15vh;
+  padding: 5px;
+}
+.cardBody {
+  flex-direction: row;
+}
+.imgRest {
+  clip-path: polygon(0 0, 100% 0%, 75% 100%, 0% 100%);
+  border-radius: 1em;
+  width: 11em;
+}
+.imgFood {
+  border-radius: 1em;
+  width: 11em;
+}
+Button {
+  font-size: "14px";
+}
+.cardFood {
+  width: 100%;
+  height: 420px;
+  overflow: scroll;
+
+  align-items: center;
+}
+.cardFoodDetails {
+  width: 100%;
+  height: 100%;
+  overflow: scroll;
+}
+.imgFoodOrden {
+  border-radius: 1em;
+  width: 11em;
+}
+.price {
+  display: flex;
+  gap: 40px;
+  height: 30px;
+  border-radius: 10px;
+  background-color: #ffe031;
+  align-items: center;
+  width: 150px;
+}
+.cardOrden {
+  width: 100%;
+  height: 650px;
+  overflow: scroll;
+}
+
+@media (max-width: 600px) {
+  .logo {
+    display: block;
+    margin: auto;
+    height: 12vh;
+    padding: 10px;
+  }
+  .cardFood {
+    height: 220px;
+  }
+  .cardOrden {
+    width: 100%;
+    height: 400px;
+    overflow: scroll;
+  }
+}

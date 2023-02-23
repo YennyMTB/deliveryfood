@@ -1,77 +1,73 @@
-import React, { useEffect, useState } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Login from "../components/session/Login";
-import Register from "../components/session/Register";
-import Phone from "../components/session/Phone";
-import Verification from "../components/session/Verification";
-import { Home } from "../components/home/Home";
-import LoadingPage from "../components/loading/LoadingPage";
-import Search from "../components/search/Search";
-import Order from "../components/order/Order";
-import Profile from "../components/profile/Profile";
-import PublicRouter from "./PublicRouter";
-import PrivateRouter from "./PrivateRouter";
-import { auth } from "../firebase/firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { actionSignPhoneSync } from "../redux/actions/userAction";
-import Details from "../components/restaurant/Details";
-import Plates from "../components/restaurant/Plates";
-
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Navigation from "../components/home/Navigation";
+//import NavigationBar from "../components/home/NavigationBar";
+import Login from "../components/loginAndRegister/Login";
+import Register from "../components/loginAndRegister/Register";
+import { auth } from "../Firebase/firebaseConfig";
+import { actionLoginAsync } from "../redux/actions/userActions";
+//import { actionLoginAsync } from "../redux/actions/userActions";
+import DashboardRouter from "./DashboardRouter";
+import PrivateRouter from "./PrivateRouter";
+import PublicRouter from "./PublicRouter";
 
 const Router = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(undefined);
+  const [check, setCheck] = useState(true);
+  const userStore = useSelector((store) => store.userStore);
   const dispatch = useDispatch();
-  const [isLoggedin, setIsLoggedIn] = useState(undefined);
-  const [check, setcheck] = useState(true);
-  const userStore = useSelector(store => store.userStore)
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user?.uid) {
         setIsLoggedIn(true);
-      } else {
-        setIsLoggedIn(false);
-      }
-      setcheck(false)
-      if (user?.auth.currentUser) {
         if (Object.entries(userStore).length === 0) {
-          const { displayName, email, accessToken, phoneNumber, photoURL, uid } = user.auth.currentUser;
+          const {
+            displayName,
+            email,
+            phoneNumber,
+            accessToken,
+            photoURL,
+            uid,
+          } = user.auth.currentUser;
           dispatch(
-            actionSignPhoneSync({
+            actionLoginAsync({
               name: displayName,
               email,
               accessToken,
               phoneNumber,
               avatar: photoURL,
               uid,
-              error: false
-            }));
+              error: false,
+            })
+          );
         }
+      } else {
+        setIsLoggedIn(false);
       }
-    }
-    );
-  }, [setIsLoggedIn, check]);
+      setCheck(false);
+    });
+  }, [setIsLoggedIn, dispatch, userStore]);
 
+  if (check) {
+    return <h1>Waiting....</h1>;
+  }
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<PublicRouter isAuthentication={isLoggedin} />}>
-          <Route path="/" element={<LoadingPage />} />
-          <Route path="/phone" element={<Phone />} />
-          <Route path="/verification" element={<Verification />} />
+        <Route element={<PublicRouter isAutentication={isLoggedIn} />}>
+          <Route path="/Register" element={<Register />} />
+          <Route path="/" element={<Login />} />
         </Route>
-        <Route element={<PrivateRouter isAuthentication={isLoggedin} />}>
-          <Route path="/register/:uid" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/details" element={<Details />} />
-          <Route path="/plates" element={<Plates />} />
-          <Route path="/search" element={<Search />} />
-          <Route path="/order" element={<Order />} />
-          <Route path="/profile" element={<Profile />} />
+
+        <Route element={<PrivateRouter isAutentication={isLoggedIn} />}>
+          <Route path="/*" element={<DashboardRouter />} />
         </Route>
       </Routes>
+      <Navigation isAutentication={isLoggedIn} />
     </BrowserRouter>
   );
 };
